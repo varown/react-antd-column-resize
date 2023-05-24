@@ -1,0 +1,20 @@
+.resizable-handle {
+  width: 5px;
+  background: red;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  top: 0;
+  cursor: col-resize;
+  z-index: 1;
+  &:active,
+  &:hover {
+    z-index: 5;
+    cursor: col-resize;
+
+    & .resizable-line {
+      background: var(--arh-color, #000);
+      pointer-events: none;
+    }
+  }
+}
