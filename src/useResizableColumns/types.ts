@@ -8,7 +8,7 @@ export interface Column {
 
 
 export interface ResizableColumnProps {
-  columns: any[];
-
-
+  columns: Column[];
+  minWidth?: string | number;
+  maxWidth?: string | number,
 }

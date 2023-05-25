@@ -12,5 +12,6 @@
       "useResizableColumns/*": ["src/*", "*"]
     }
   },
-  "include": [".dumi/**/*", ".dumirc.ts", "src/**/*"]
+  "include": [".dumi/**/*", ".dumirc.ts", "src/**/*"],
+  "lib": ["es2015", "es2017", "ES2019", "dom"]
 }

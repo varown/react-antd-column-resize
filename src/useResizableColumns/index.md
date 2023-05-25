@@ -10,7 +10,7 @@ const App = () => {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
-      width: 200,
+      width: 500,
     },
     {
       title: 'Age',
@@ -22,7 +22,13 @@ const App = () => {
       title: 'Address',
       dataIndex: 'address',
       key: 'address',
-      width: 300,
+      width: 600,
+    },
+    {
+      title: 'phone',
+      dataIndex: 'phone',
+      key: 'phone',
+      width: 600,
     },
   ];
 
@@ -32,23 +38,21 @@ const App = () => {
       name: 'John Doe',
       age: 32,
       address: '123 Street, City',
+      phone: '1588553336',
     },
     {
       key: '2',
       name: 'Jane Smith',
       age: 28,
       address: '456 Road, Town',
+      phone: '1588553336',
     },
   ];
 
-  const { columns: resizableColumns, ResizableHeaderCell } =
-    useResizableColumns({ columns });
-
-  const components = {
-    header: {
-      cell: ResizableHeaderCell,
-    },
-  };
+  const { resizableColumns, components } = useResizableColumns({
+    columns,
+  });
+  console.log(4777, resizableColumns);
 
   return (
     <div className="app">
