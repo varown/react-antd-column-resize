@@ -1,7 +1,6 @@
-@import 'react-resizable/css/styles.css';
-
 .resizable-container {
   position: relative;
+
   &:last-child {
     .resizable-handler {
       right: 0px;
@@ -10,9 +9,9 @@
 }
 
 .resizable-box {
-  position: absolute;
-  left: 0;
-  top: 0;
+  position: relative;
+  height: 100%;
+  overflow: hidden;
   background-clip: padding-box;
 }
 
@@ -54,6 +53,7 @@
 .resizable-title {
   position: relative;
   z-index: 0;
+
   &.ellipsis {
     text-overflow: ellipsis;
     overflow: hidden;

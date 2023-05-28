@@ -4,6 +4,7 @@ import type { ResizeCallbackData, } from 'react-resizable'
 import useMergedState from './hooks/useMergedState';
 import { ResizableColumnProps, Column } from './types';
 import { INTERNAL_KEY } from './constant';
+//import 'react-resizable/css/styles.css';
 import './index.scss';
 
 const ResizableHeaderCell: React.FC<{ width: number }> = (props) => {
@@ -74,7 +75,7 @@ const ResizableHeaderCell: React.FC<{ width: number }> = (props) => {
         height={0}
         // minConstraints={[minWidth, 0]}
         // maxConstraints={[maxWidth, 0]}
-        className='resizable-box'
+        className='z'
         handle={
           <div
             className='resizable-handler'
