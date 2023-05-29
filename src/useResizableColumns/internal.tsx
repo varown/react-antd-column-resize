@@ -8,7 +8,7 @@ import { INTERNAL_KEY } from './constant';
 
 
 const InternalResizableColumn = (props: ResizableColumnProps) => {
-  const { columns, minWidth, maxWidth } = props;
+  const { columns, minWidth = 80, maxWidth = 1000 } = props;
   const preColumns = usePrevious(columns);
 
   const handleResizableColumns = (key: string | number, interWidth: number) => {
@@ -31,6 +31,8 @@ const InternalResizableColumn = (props: ResizableColumnProps) => {
       return {
         ...column,
         onHeaderCell: () => ({
+          minWidth,
+          maxWidth,
           width: column.width,
           cellKey: column[INTERNAL_KEY] || column.key,
           onResize: handleResizableColumns,
@@ -41,10 +43,11 @@ const InternalResizableColumn = (props: ResizableColumnProps) => {
 
   const [resizableColumns, setResizableColumns] = useMergedState<Column[]>(initialColumns, {
     onChange(value) {
-      console.log('onChange', value);
+      const allWidth = value.reduce((pre, cur) => pre + (cur.width || Number(minWidth)), 0);
+      setTableWidth(allWidth);
     },
   });
-
+  const [tableWidth, setTableWidth] = useState<number>(0);
   const components = useMemo(() => {
     return {
       header: {
@@ -56,6 +59,7 @@ const InternalResizableColumn = (props: ResizableColumnProps) => {
   return {
     resizableColumns,
     components,
+    tableWidth,
   };
 };
 

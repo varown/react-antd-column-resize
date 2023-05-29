@@ -10,7 +10,7 @@ const App = () => {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
-      width: 500,
+      width: 200,
     },
     {
       title: 'Age',
@@ -22,13 +22,14 @@ const App = () => {
       title: 'Address',
       dataIndex: 'address',
       key: 'address',
-      width: 600,
+      width: 300,
     },
     {
       title: 'phone',
       dataIndex: 'phone',
       key: 'phone',
-      width: 600,
+      width: 120,
+      fixed: 'right',
     },
   ];
 
@@ -49,7 +50,7 @@ const App = () => {
     },
   ];
 
-  const { resizableColumns, components } = useResizableColumns({
+  const { resizableColumns, components, tableWidth } = useResizableColumns({
     columns,
   });
   console.log(4777, resizableColumns);
@@ -61,6 +62,7 @@ const App = () => {
         dataSource={data}
         components={components}
         bordered
+        scroll={{ x: tableWidth || false }}
       />
     </div>
   );

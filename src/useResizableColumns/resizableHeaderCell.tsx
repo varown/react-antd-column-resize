@@ -4,7 +4,7 @@ import type { ResizeCallbackData, } from 'react-resizable'
 import useMergedState from './hooks/useMergedState';
 import { ResizableColumnProps, Column } from './types';
 import { INTERNAL_KEY } from './constant';
-//import 'react-resizable/css/styles.css';
+import 'react-resizable/css/styles.css';
 import './index.scss';
 
 const ResizableHeaderCell: React.FC<{ width: number }> = (props) => {
@@ -31,8 +31,22 @@ const ResizableHeaderCell: React.FC<{ width: number }> = (props) => {
     }
   });
 
-  if (!interWidth) {
-    return <th {...restProps} />;
+
+  if (!interWidth || Number.isNaN(Number(width))) {
+    return <th
+      {...restProps}
+      style={{
+        ...style,
+        minWidth,
+      }}
+      className={`no-resizable-container ${className}`}
+      onClick={onClick}
+      rowSpan={rowSpan}
+      colSpan={colSpan}
+      scope={scope}
+    >
+      <span title={title}>{children}</span>
+    </th>
   }
 
   const setBodyStyle = (active: boolean) => {
@@ -41,18 +55,18 @@ const ResizableHeaderCell: React.FC<{ width: number }> = (props) => {
     document.documentElement.style.cursor = active ? 'col-resize' : ''
   }
 
-  const onResizeStart = (_, data: ResizeCallbackData) => {
+  const onResizeStart = (_: any, data: ResizeCallbackData) => {
     setBodyStyle(true);
     setInterWidth(data?.size?.width);
   };
 
-  const onResize = (_, data: ResizeCallbackData) => {
+  const onResize = (_: any, data: ResizeCallbackData) => {
     const nowWidth = data?.size?.width;
     setInterWidth(nowWidth);
 
   };
 
-  const onResizeStop = (_, { node }: { node: HTMLElement }) => {
+  const onResizeStop = (_: any, { node }: { node: HTMLElement }) => {
     setBodyStyle(false);
     onResizeCallback && onResizeCallback(cellKey, interWidth);
   };
@@ -63,19 +77,19 @@ const ResizableHeaderCell: React.FC<{ width: number }> = (props) => {
       colSpan={colSpan}
       rowSpan={rowSpan}
       onClick={onClick}
-      data-arh-enable='true'
       className={`resizable-container ${className}`}
       style={{
         ...style,
         overflow: 'unset',
+        width: interWidth,
       }}
     >
       <Resizable
         width={interWidth}
         height={0}
-        // minConstraints={[minWidth, 0]}
-        // maxConstraints={[maxWidth, 0]}
-        className='z'
+        className='resizable-box'
+        minConstraints={[minWidth, 50]}
+        maxConstraints={[maxWidth, 50]}
         handle={
           <div
             className='resizable-handler'
@@ -93,11 +107,10 @@ const ResizableHeaderCell: React.FC<{ width: number }> = (props) => {
       >
         <div style={{ width: interWidth, height: '100%' }} ></div>
       </Resizable>
-      <div {...restProps} className='resizable-title'>
+      <div style={{ width: Number(interWidth - 36), height: '100%' }}  {...restProps} className='resizable-title'>
         <span title={title}>{children}</span>
       </div>
     </th>
-
   );
 };
 
