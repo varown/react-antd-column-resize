@@ -1,3 +1,5 @@
+import type { ThHTMLAttributes } from 'react'
+import './index.css'
 
 export interface Column {
   key: string;
@@ -9,6 +11,16 @@ export interface Column {
 
 export interface ResizableColumnProps {
   columns: Column[];
-  minWidth?: string | number;
-  maxWidth?: string | number,
+  minWidth?: number;
+  maxWidth?: number,
 }
+
+
+export type ResizableHeaderCellProps = {
+  onResize: (cellKey: string | number, width: number) => void;
+  cellKey: string | number;
+  triggerRender: number;
+  width: number;
+  minWidth: number;
+  maxWidth: number;
+} & ThHTMLAttributes<HTMLTableCellElement>

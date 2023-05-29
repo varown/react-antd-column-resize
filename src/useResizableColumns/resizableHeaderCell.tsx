@@ -2,12 +2,12 @@ import React, { useState, useMemo, memo } from 'react';
 import { Resizable } from 'react-resizable';
 import type { ResizeCallbackData, } from 'react-resizable'
 import useMergedState from './hooks/useMergedState';
-import { ResizableColumnProps, Column } from './types';
+import { ResizableColumnProps, Column, ResizableHeaderCellProps } from './types';
 import { INTERNAL_KEY } from './constant';
 import 'react-resizable/css/styles.css';
 import './index.scss';
 
-const ResizableHeaderCell: React.FC<{ width: number }> = (props) => {
+const ResizableHeaderCell: React.FC<ResizableHeaderCellProps> = (props) => {
   const {
     width,
     minWidth,
@@ -23,7 +23,7 @@ const ResizableHeaderCell: React.FC<{ width: number }> = (props) => {
     scope,
     className,
     ...restProps
-  } = props as any;
+  } = props as ResizableHeaderCellProps;
 
   const [interWidth, setInterWidth] = useMergedState(width, {
     onChange: (value) => {
