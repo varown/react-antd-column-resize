@@ -13,6 +13,7 @@ export interface ResizableColumnProps {
   columns: Column[];
   minWidth?: number;
   maxWidth?: number,
+  defaultWidth?: number;
 }
 
 
@@ -23,4 +24,5 @@ export type ResizableHeaderCellProps = {
   width: number;
   minWidth: number;
   maxWidth: number;
+  defaultWidth?: number;
 } & ThHTMLAttributes<HTMLTableCellElement>

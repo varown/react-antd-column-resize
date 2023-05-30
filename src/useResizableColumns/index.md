@@ -28,7 +28,6 @@ const App = () => {
       title: 'phone',
       dataIndex: 'phone',
       key: 'phone',
-      width: 120,
       fixed: 'right',
     },
   ];
