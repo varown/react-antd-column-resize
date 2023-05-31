@@ -3,7 +3,6 @@ import { Resizable } from 'react-resizable';
 import useMergedState from './hooks/useMergedState';
 import type { ResizeCallbackData, } from 'react-resizable'
 import { ResizableHeaderCellProps } from './types';
-import usePrevious from './hooks/usePrevious';
 import 'react-resizable/css/styles.css';
 import './index.scss';
 const ResizableHeaderCell: React.FC<ResizableHeaderCellProps> = (props) => {
@@ -32,7 +31,6 @@ const ResizableHeaderCell: React.FC<ResizableHeaderCellProps> = (props) => {
       setDragWidth(width - value - 5)
     }
   });
-  console.log('ResizableHeaderCell', props, interWidth);
   if (!interWidth || Number.isNaN(Number(width))) {
     return <th
       {...restProps}
@@ -115,7 +113,7 @@ const ResizableHeaderCell: React.FC<ResizableHeaderCellProps> = (props) => {
       </Resizable>
       <div
         {...restProps}
-        style={{ width: Number(interWidth - 36), height: '100%' }}
+        style={{ width: Number(interWidth - 32), height: '100%' }}
         className='resizable-title'
       >
         <span title={title}>{children}</span>
@@ -125,4 +123,3 @@ const ResizableHeaderCell: React.FC<ResizableHeaderCellProps> = (props) => {
 };
 
 export default memo(ResizableHeaderCell);
-
