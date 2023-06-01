@@ -1,8 +1,8 @@
 import React, { useState, memo } from 'react';
 import { Resizable } from 'react-resizable';
+import { ResizableHeaderCellProps } from './types';
 import useMergedState from './hooks/useMergedState';
 import type { ResizeCallbackData, } from 'react-resizable'
-import { ResizableHeaderCellProps } from './types';
 import 'react-resizable/css/styles.css';
 import './index.scss';
 const ResizableHeaderCell: React.FC<ResizableHeaderCellProps> = (props) => {
@@ -32,22 +32,21 @@ const ResizableHeaderCell: React.FC<ResizableHeaderCellProps> = (props) => {
     }
   });
   if (!interWidth || Number.isNaN(Number(width))) {
+    delete style?.width;
     return <th
       {...restProps}
+      onClick={onClick}
+      rowSpan={rowSpan}
+      colSpan={colSpan}
+      className={className}
       style={{
         ...style,
         minWidth: defaultWidth,
       }}
-      className={`no-resizable-container ${className}`}
-      onClick={onClick}
-      rowSpan={rowSpan}
-      colSpan={colSpan}
-      scope={scope}
     >
       <span title={title}>{children}</span>
     </th>
-  }
-
+  };
   const setBodyStyle = (active: boolean) => {
     document.body.style.userSelect = active ? 'none' : ''
     document.body.style.pointerEvents = active ? 'none' : ''
@@ -86,7 +85,6 @@ const ResizableHeaderCell: React.FC<ResizableHeaderCellProps> = (props) => {
       style={{
         ...style,
         overflow: 'unset',
-        width: interWidth,
       }}
     >
       <Resizable
@@ -113,7 +111,10 @@ const ResizableHeaderCell: React.FC<ResizableHeaderCellProps> = (props) => {
       </Resizable>
       <div
         {...restProps}
-        style={{ width: Number(interWidth - 32), height: '100%' }}
+        style={{
+          width: Number(interWidth - 32),
+          height: '100%'
+        }}
         className='resizable-title'
       >
         <span title={title}>{children}</span>

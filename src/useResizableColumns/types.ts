@@ -5,6 +5,7 @@ export interface Column {
   key: string;
   width: number;
   dataIndex: string;
+  children?: Column[];
   // 其他列属性...
 }
 

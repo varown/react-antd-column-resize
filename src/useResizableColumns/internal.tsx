@@ -17,50 +17,86 @@ const InternalResizableColumn = (props: ResizableColumnProps) => {
     };
   };
 
-  const [tableWidth, setTableWidth] = useState<number | boolean>(0);
+  const countTotalWidth = (columns: Column[]): number => {
+    if (!Array.isArray(columns)) return 0;
+    return columns.reduce((pre, cur) => {
+      const isLeaf = !Array.isArray(cur.children);
+      const childrenWidth = Array.isArray(cur.children) ? countTotalWidth(cur.children) : 0;
+      const columnWidth = cur.width ?? Number(defaultWidth);
+      const curWidth = isLeaf ? columnWidth : 0;
+      if (isNaN(curWidth)) {
+        console.error(`Invalid column width: ${curWidth}`);
+        return pre + childrenWidth
+      }
+      return pre + childrenWidth + curWidth;
+    }, 0);
+  };
+
+  const [tableWidth, setTableWidth] = useState<number | boolean>(() => countTotalWidth(columns) || false);
+
+
+
+
+  const updateResizableColumns = <T extends Column>(column: T, key: string | number, interWidth: number): T => {
+    const cellKey = column[INTERNAL_KEY] || column.key;
+    if (cellKey !== key && Array.isArray(column.children)) {
+      column.children = column.children.map((item) => updateResizableColumns(item, key, interWidth));
+    }
+    const width = cellKey !== key ? column?.width : interWidth;
+    return {
+      ...column,
+      ...(cellKey === key && { width: interWidth }),
+      onHeaderCell: () => ({
+        minWidth,
+        maxWidth,
+        defaultWidth,
+        width: width,
+        cellKey: column[INTERNAL_KEY] || column.key,
+        onResize: handleResizableColumns,
+      }),
+    };
+  };
+
+
 
   const handleResizableColumns = (key: string | number, interWidth: number) => {
     setResizableColumns((prev) => {
       return prev.map((column) => {
-        const cellKey = column[INTERNAL_KEY] || column.key
-        if (cellKey === key) {
-          return {
-            ...column,
-            width: interWidth,
-            onHeaderCell: () => ({
-              minWidth,
-              maxWidth,
-              defaultWidth,
-              width: interWidth,
-              cellKey: column[INTERNAL_KEY] || column.key,
-              onResize: handleResizableColumns,
-            }),
-          }
-        }
-        return column;
-      })
+        return updateResizableColumns(column, key, interWidth);
+      });
     });
   };
 
-  const initialColumns = useMemo(() => {
-    return columns?.map((column) => {
+  function processColumns(columns: Column[]): Column[] {
+    return columns.map((column) => {
+      const { children } = column;
+      if (Array.isArray(children)) {
+        column.children = processColumns(children);
+      }
       return {
         ...column,
         onHeaderCell: () => ({
           minWidth,
           maxWidth,
           defaultWidth,
-          width: column.width,
+          ...'width' in column && { width: column.width },
           cellKey: column[INTERNAL_KEY] || column.key,
           onResize: handleResizableColumns,
         }),
-      }
-    })
-  }, [columns])
+      };
+    });
+  };
+
+
+  const initialColumns: Column[] = useMemo(() => {
+    return processColumns(columns);
+  }, [columns]);
+
+
 
   const [resizableColumns, setResizableColumns] = useMergedState<Column[]>(initialColumns, {
     onChange(value) {
-      const allWidth = Array.isArray(value) && value?.reduce((pre, cur) => pre + (cur.width || Number(minWidth)), 0) || false;
+      const allWidth = countTotalWidth(value);
       setTableWidth(allWidth);
     },
   });

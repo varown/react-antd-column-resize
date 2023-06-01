@@ -22,6 +22,22 @@ const columns = [
     onFilter: (value, record) => record.name.indexOf(value) === 0,
   },
   {
+    title: 'Company',
+    children: [
+      {
+        title: 'Company Address',
+        dataIndex: 'companyAddress',
+        key: 'companyAddress',
+        width: 200,
+      },
+      {
+        title: 'Company Name',
+        dataIndex: 'companyName',
+        key: 'companyName',
+      },
+    ],
+  },
+  {
     title: 'Other',
     children: [
       {
@@ -61,27 +77,12 @@ const columns = [
       },
     ],
   },
-  {
-    title: 'Company',
-    children: [
-      {
-        title: 'Company Address',
-        dataIndex: 'companyAddress',
-        key: 'companyAddress',
-        width: 200,
-      },
-      {
-        title: 'Company Name',
-        dataIndex: 'companyName',
-        key: 'companyName',
-      },
-    ],
-  },
+
   {
     title: 'Gender',
     dataIndex: 'gender',
     key: 'gender',
-    width: 80,
+    width: 120,
     fixed: 'right',
   },
 ];
