@@ -47,14 +47,28 @@ const ResizableHeaderCell: React.FC<ResizableHeaderCellProps> = (props) => {
       <span title={title}>{children}</span>
     </th>
   };
-  const setBodyStyle = (active: boolean) => {
-    document.body.style.userSelect = active ? 'none' : ''
-    document.body.style.pointerEvents = active ? 'none' : ''
-    document.documentElement.style.cursor = active ? 'col-resize' : ''
-  }
+
+
+  const toggleColumnResizeStyles = (active: boolean) => {
+    try {
+      const bodyStyle = document.body?.style;
+      const htmlStyle = document.documentElement?.style;
+
+      if (bodyStyle && htmlStyle) {
+        bodyStyle.userSelect = active ? 'none' : '';
+        bodyStyle.pointerEvents = active ? 'none' : '';
+        htmlStyle.cursor = active ? 'col-resize' : '';
+      }
+    } catch (error) {
+      // 处理可能发生的错误
+      console.error('An error occurred while toggling column resize styles:', error);
+    }
+  };
+
+
 
   const onResizeStart = (_: any, data: ResizeCallbackData) => {
-    setBodyStyle(true);
+    toggleColumnResizeStyles(true);
     setIsDragging(true)
     const startWidth = data?.size?.width;
     setInterWidth(startWidth);
@@ -66,7 +80,7 @@ const ResizableHeaderCell: React.FC<ResizableHeaderCellProps> = (props) => {
   };
 
   const onResizeStop = () => {
-    setBodyStyle(false);
+    toggleColumnResizeStyles(false);
     setIsDragging(false)
     onResizeCallback && onResizeCallback(cellKey, interWidth);
   };
