@@ -4,7 +4,7 @@ import { Table } from 'antd';
 import { useResizableColumns } from 'useResizableColumns';
 const columns = [
   {
-    title: 'Name',
+    title: 'NameNameNameName',
     dataIndex: 'name',
     key: 'name',
     width: 100,
@@ -29,11 +29,14 @@ const columns = [
         dataIndex: 'companyAddress',
         key: 'companyAddress',
         width: 200,
+        align: 'center',
       },
       {
         title: 'Company Name',
         dataIndex: 'companyName',
         key: 'companyName',
+        align: 'center',
+        ellipsis: true,
       },
     ],
   },

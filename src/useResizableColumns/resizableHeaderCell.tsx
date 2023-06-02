@@ -1,10 +1,13 @@
 import React, { useState, memo } from 'react';
-import { Resizable } from 'react-resizable';
+import type { ResizeCallbackData } from 'react-resizable'
 import { ResizableHeaderCellProps } from './types';
 import useMergedState from './hooks/useMergedState';
-import type { ResizeCallbackData, } from 'react-resizable'
+import { Resizable } from 'react-resizable';
 import 'react-resizable/css/styles.css';
-import './index.module.scss';
+import './style/index.scss';
+import './style/global.scss';
+
+
 const ResizableHeaderCell: React.FC<ResizableHeaderCellProps> = (props) => {
   const {
     width,
@@ -24,13 +27,9 @@ const ResizableHeaderCell: React.FC<ResizableHeaderCellProps> = (props) => {
     ...restProps
   } = props as ResizableHeaderCellProps;
 
-  const [isDragging, setIsDragging] = useState(false);
-  const [dragWidth, setDragWidth] = useState(-5);
-  const [interWidth, setInterWidth] = useMergedState(width, {
-    onChange: (value) => {
-      setDragWidth(width - value - 5)
-    }
-  });
+  // 先使用useMergedState
+  const [interWidth, setInterWidth] = useMergedState(width);
+
   if (!interWidth || Number.isNaN(Number(width))) {
     delete style?.width;
     return <th
@@ -60,7 +59,6 @@ const ResizableHeaderCell: React.FC<ResizableHeaderCellProps> = (props) => {
         htmlStyle.cursor = active ? 'col-resize' : '';
       }
     } catch (error) {
-      // 处理可能发生的错误
       console.error('An error occurred while toggling column resize styles:', error);
     }
   };
@@ -68,7 +66,6 @@ const ResizableHeaderCell: React.FC<ResizableHeaderCellProps> = (props) => {
 
   const onResizeStart = (_: any, data: ResizeCallbackData) => {
     toggleColumnResizeStyles(true);
-    setIsDragging(true)
     const startWidth = data?.size?.width;
     setInterWidth(startWidth);
   };
@@ -80,7 +77,6 @@ const ResizableHeaderCell: React.FC<ResizableHeaderCellProps> = (props) => {
 
   const onResizeStop = () => {
     toggleColumnResizeStyles(false);
-    setIsDragging(false)
     onResizeCallback?.(cellKey, interWidth);
   };
 
@@ -110,7 +106,6 @@ const ResizableHeaderCell: React.FC<ResizableHeaderCellProps> = (props) => {
           <div
             className='resizable-handler'
             onClick={handleClick}
-            style={{ right: isDragging ? dragWidth : -5 }}
           >
             <div className='resizable-line' />
           </div>
@@ -124,13 +119,9 @@ const ResizableHeaderCell: React.FC<ResizableHeaderCellProps> = (props) => {
       </Resizable>
       <div
         {...restProps}
-        style={{
-          width: Number(interWidth - 32),
-          height: '100%'
-        }}
         className='resizable-title'
       >
-        <span title={title}>{children}</span>
+        {children}
       </div>
     </th>
   );

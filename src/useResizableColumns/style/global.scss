@@ -1,0 +1,11 @@
+.ant-table-wrapper .ant-table-filter-trigger {
+  /* 覆盖样式 */
+  margin-right: 1px !important;
+}
+
+// 后续这个会根据需求进行调整，主要兼容antd 5
+.ant-table-column-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: keep-all;
+}

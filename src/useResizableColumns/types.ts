@@ -2,16 +2,16 @@ import type { ThHTMLAttributes } from 'react'
 import './index.css'
 
 export interface Column {
-  key: string;
-  width: number;
-  dataIndex: string;
-  children?: Column[];
+  key?: string | number | undefined;
+  width?: number;
+  dataIndex?: string | number | undefined;
+  children?: Column[] | undefined;
   // 其他列属性...
 }
 
 
-export interface ResizableColumnProps {
-  columns: Column[];
+export interface ResizableColumnProps<T> {
+  columns: T[];
   minWidth?: number;
   maxWidth?: number,
   defaultWidth?: number;
@@ -19,11 +19,10 @@ export interface ResizableColumnProps {
 
 
 export type ResizableHeaderCellProps = {
-  onResize: (cellKey: string | number, width: number) => void;
-  cellKey: string | number;
-  triggerRender: number;
   width: number;
   minWidth: number;
   maxWidth: number;
-  defaultWidth?: number;
+  defaultWidth: number;
+  cellKey: string | number;
+  onResize: (cellKey: string | number, width: number) => void;
 } & ThHTMLAttributes<HTMLTableCellElement>

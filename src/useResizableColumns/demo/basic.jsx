@@ -9,6 +9,7 @@ const App = () => {
       dataIndex: 'name',
       key: 'name',
       width: 200,
+      align: 'center',
     },
     {
       title: 'Age',

@@ -1,11 +1,11 @@
 import { useState, useMemo } from 'react';
+import { INTERNAL_KEY } from './constant';
+import useMergedState from './hooks/useMergedState';
 import ResizableHeaderCell from './resizableHeaderCell';
 import { ResizableColumnProps, Column } from './types';
-import useMergedState from './hooks/useMergedState';
-import { INTERNAL_KEY } from './constant';
 
 
-const InternalResizableColumn = (props: ResizableColumnProps) => {
+const InternalResizableColumn = (props: ResizableColumnProps<Column>) => {
 
   const { columns, minWidth = 120, maxWidth = 2000, defaultWidth = 120 } = props;
 
@@ -35,8 +35,6 @@ const InternalResizableColumn = (props: ResizableColumnProps) => {
   const [tableWidth, setTableWidth] = useState<number | boolean>(() => countTotalWidth(columns) || false);
 
 
-
-
   const updateResizableColumns = <T extends Column>(column: T, key: string | number, interWidth: number): T => {
     const cellKey = column[INTERNAL_KEY] || column.key;
     if (cellKey !== key && Array.isArray(column.children)) {
@@ -58,13 +56,14 @@ const InternalResizableColumn = (props: ResizableColumnProps) => {
   };
 
 
-
   const handleResizableColumns = (key: string | number, interWidth: number) => {
+
     setResizableColumns((prev) => {
       return prev.map((column) => {
         return updateResizableColumns(column, key, interWidth);
       });
     });
+
   };
 
   function processColumns(columns: Column[]): Column[] {
@@ -91,7 +90,6 @@ const InternalResizableColumn = (props: ResizableColumnProps) => {
   const initialColumns: Column[] = useMemo(() => {
     return processColumns(columns);
   }, [columns]);
-
 
 
   const [resizableColumns, setResizableColumns] = useMergedState<Column[]>(initialColumns, {
