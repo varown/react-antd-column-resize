@@ -7,6 +7,11 @@
       right: 0px;
     }
   }
+  :global {
+    .ant-table-wrapper.ant-table-filter-trigger {
+      padding: 0 8px !important;
+    }
+  }
 }
 
 .resizable-box {
@@ -55,6 +60,7 @@
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+  box-sizing: border-box;
 }
 
 .no-resizable-container {

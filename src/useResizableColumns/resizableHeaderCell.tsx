@@ -4,7 +4,7 @@ import { ResizableHeaderCellProps } from './types';
 import useMergedState from './hooks/useMergedState';
 import type { ResizeCallbackData, } from 'react-resizable'
 import 'react-resizable/css/styles.css';
-import './index.scss';
+import './index.module.scss';
 const ResizableHeaderCell: React.FC<ResizableHeaderCellProps> = (props) => {
   const {
     width,
@@ -66,7 +66,6 @@ const ResizableHeaderCell: React.FC<ResizableHeaderCellProps> = (props) => {
   };
 
 
-
   const onResizeStart = (_: any, data: ResizeCallbackData) => {
     toggleColumnResizeStyles(true);
     setIsDragging(true)
@@ -82,7 +81,7 @@ const ResizableHeaderCell: React.FC<ResizableHeaderCellProps> = (props) => {
   const onResizeStop = () => {
     toggleColumnResizeStyles(false);
     setIsDragging(false)
-    onResizeCallback && onResizeCallback(cellKey, interWidth);
+    onResizeCallback?.(cellKey, interWidth);
   };
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
