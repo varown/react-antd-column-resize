@@ -1,4 +1,4 @@
-# useResizableColumns
+# reactAntdColumnResize
 
 [![NPM version](https://img.shields.io/npm/v/useResizableColumns.svg?style=flat)](https://npmjs.org/package/useResizableColumns)
 [![NPM downloads](http://img.shields.io/npm/dm/useResizableColumns.svg?style=flat)](https://npmjs.org/package/useResizableColumns)

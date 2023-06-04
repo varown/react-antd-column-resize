@@ -1,1 +1,1 @@
-export { default as useResizableColumns } from './useResizableColumns';
+export { default as useAntdColumnResize } from './useAntdColumnResize';

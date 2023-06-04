@@ -1,5 +1,5 @@
 ---
-title: useResizableColumns
+title: useAntdColumnResize
 toc: content
 demo:
   cols: 1
