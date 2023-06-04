@@ -1,4 +1,4 @@
-import React, { useState, memo } from 'react';
+import React, { memo } from 'react';
 import type { ResizeCallbackData } from 'react-resizable'
 import { ResizableHeaderCellProps } from './types';
 import useMergedState from './hooks/useMergedState';
@@ -8,7 +8,7 @@ import './style/index.scss';
 import './style/global.scss';
 
 
-const ResizableHeaderCell: React.FC<ResizableHeaderCellProps> = (props) => {
+const ResizableHeaderCell = (props: ResizableHeaderCellProps): JSX.Element => {
   const {
     width,
     minWidth,
@@ -77,6 +77,7 @@ const ResizableHeaderCell: React.FC<ResizableHeaderCellProps> = (props) => {
 
   const onResizeStop = () => {
     toggleColumnResizeStyles(false);
+    if (interWidth === width) return;
     onResizeCallback?.(cellKey, interWidth);
   };
 

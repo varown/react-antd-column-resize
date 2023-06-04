@@ -1,10 +1,11 @@
 import type { ThHTMLAttributes } from 'react'
+import { INTERNAL_KEY } from './constant';
 import './index.css'
 
 export interface Column {
   key?: string | number | undefined;
-  width?: number;
-  dataIndex?: string | number | undefined;
+  width?: string | number | undefined;
+  [INTERNAL_KEY]?: string | number | undefined;
   children?: Column[] | undefined;
   // 其他列属性...
 }
