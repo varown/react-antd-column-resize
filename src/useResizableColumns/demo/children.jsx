@@ -1,6 +1,6 @@
+import { ProTable } from '@ant-design/pro-components';
+import { Divider, Table } from 'antd';
 import React from 'react';
-import { Table } from 'antd';
-
 import { useResizableColumns } from 'useResizableColumns';
 const columns = [
   {
@@ -105,19 +105,29 @@ for (let i = 0; i < 100; i++) {
   });
 }
 
-
 const App = () => {
   const { resizableColumns, components, tableWidth } = useResizableColumns({
     columns,
   });
-  return <Table
-    columns={resizableColumns}
-    components={components}
-    dataSource={data}
-    bordered
-    scroll={{ x: tableWidth }}
-  />
-
-}
+  return (
+    <>
+      <Table
+        columns={resizableColumns}
+        components={components}
+        dataSource={data}
+        bordered
+        scroll={{ x: tableWidth }}
+      />
+      <Divider />
+      <ProTable
+        columns={resizableColumns}
+        dataSource={data}
+        components={components}
+        bordered
+        scroll={{ x: tableWidth || false }}
+      />
+    </>
+  );
+};
 
 export default App;
