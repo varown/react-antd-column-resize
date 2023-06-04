@@ -1,4 +1,4 @@
-import { Table } from 'antd';
+import { ProTable } from '@ant-design/pro-components';
 import React from 'react';
 import { useAntdColumnResize } from 'reactAntdColumnResize';
 const columns = [
@@ -110,12 +110,12 @@ const App = () => {
   });
   return (
     <>
-      <Table
+      <ProTable
         columns={resizableColumns}
-        components={components}
         dataSource={data}
+        components={components}
         bordered
-        scroll={{ x: tableWidth }}
+        scroll={{ x: tableWidth || false }}
       />
     </>
   );
