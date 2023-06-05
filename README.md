@@ -4,7 +4,7 @@
 
 ## 简介
 
-react-antd-column-resize 是一个基于 react hooks 的 antd 表格(table)列宽拖动组件，
+react-antd-column-resize 是一个基于 react hooks 开发的 antd 表格(table)列宽拖动组件，
 支持 antd4、antd5 和 ant-design/pro-components 以及所有基于 antd 开发的 table 组件。
 其核心 hooks`useAntdColumnResize`，可以自定义拖动的最小宽度、最大宽度和默认宽度方便快捷。
 
