@@ -1,6 +1,6 @@
 {
   "name": "react-antd-column-resize",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "盂清风",
   "license": "MIT",
   "module": "dist/index.js",
@@ -48,12 +48,14 @@
     "react-resizable": "^3.0.5"
   },
   "devDependencies": {
+    "@ant-design/pro-components": "^2.5.5",
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@types/react-resizable": "^3.0.4",
     "@umijs/lint": "^4.0.0",
+    "antd": "^5.5.1",
     "dumi": "^2.2.0",
     "eslint": "^8.23.0",
     "father": "^4.1.0",
@@ -69,10 +71,6 @@
   "peerDependencies": {
     "react": ">=16.9.0",
     "react-dom": ">=16.9.0"
-  },
-  "optionalDependencies": {
-    "@ant-design/pro-components": "^2.5.5",
-    "antd": "^5.5.1"
   },
   "publishConfig": {
     "access": "public"

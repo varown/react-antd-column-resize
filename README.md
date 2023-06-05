@@ -1,6 +1,6 @@
 <h1 align="center">欢迎使用 react-antd-column-resize</h1>
 
-> 中文文档 | [English](README_EN.md) [![NPM version](https://img.shields.io/npm/v/useResizableColumns.svg?style=flat)](https://npmjs.org/package/useResizableColumns) [![NPM downloads](http://img.shields.io/npm/dm/useResizableColumns.svg?style=flat)](https://npmjs.org/package/useResizableColumns)
+> 中文文档 | [English](README_EN.md) [![NPM version](https://img.shields.io/npm/v/react-antd-column-resize.svg?style=flat)](https://npmjs.org/package/react-antd-column-resize) [![NPM downloads](http://img.shields.io/npm/dm/react-antd-column-resize.svg?style=flat)](https://npmjs.org/package/react-antd-column-resize)
 
 ## 简介
 
