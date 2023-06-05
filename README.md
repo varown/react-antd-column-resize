@@ -24,7 +24,7 @@ yarn add react-antd-column-resize
 ```jsx
 import { Table } from 'antd';
 import React from 'react';
-import { useAntdColumnResize } from 'reactAntdColumnResize';
+import { useAntdColumnResize } from 'react-antd-column-resize';
 
 const App = () => {
   const columns = [

@@ -1,6 +1,6 @@
 import { Table } from 'antd';
 import React from 'react';
-import { useAntdColumnResize } from 'reactAntdColumnResize';
+import { useAntdColumnResize } from 'react-antd-column-resize';
 const columns = [
   {
     title: 'NameNameNameName',
