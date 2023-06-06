@@ -83,12 +83,14 @@ const InternalResizableColumn = (props: ResizableColumnProps<Column>) => {
 
   const [resizableColumns, setResizableColumns] = useMergedState<Column[]>(initialColumns, {
     onChange(value, pre) {
-      if (value === pre) return;
       const allWidth = countTotalWidth(value);
       setTableWidth(allWidth);
     },
   });
 
+  const resetColumns = useCallback(() => {
+    setResizableColumns(initialColumns);
+  }, [initialColumns]);
 
   const components = useMemo(() => {
     return {
@@ -102,6 +104,7 @@ const InternalResizableColumn = (props: ResizableColumnProps<Column>) => {
     resizableColumns,
     components,
     tableWidth,
+    resetColumns
   };
 };
 

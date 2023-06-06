@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useEffect } from 'react';
 import type { ResizeCallbackData } from 'react-resizable'
 import { ResizableHeaderCellProps } from './types';
 import useMergedState from './hooks/useMergedState';
@@ -27,8 +27,13 @@ const ResizableHeaderCell = (props: ResizableHeaderCellProps): JSX.Element => {
     ...restProps
   } = props as ResizableHeaderCellProps;
 
+
   // 先使用useMergedState
   const [interWidth, setInterWidth] = useMergedState(width);
+
+  useEffect(() => {
+    setInterWidth(width);
+  }, [width]);
 
   if (!interWidth || Number.isNaN(Number(width))) {
     delete style?.width;

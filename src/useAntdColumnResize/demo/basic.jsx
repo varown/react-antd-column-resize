@@ -1,4 +1,4 @@
-import { Table } from 'antd';
+import { Table, Button, Divider } from 'antd';
 import React from 'react';
 import { useAntdColumnResize } from 'reactAntdColumnResize';
 
@@ -48,12 +48,15 @@ const App = () => {
     },
   ];
 
-  const { resizableColumns, components, tableWidth } = useAntdColumnResize({
+  const { resizableColumns, components, tableWidth, resetColumns } = useAntdColumnResize({
     columns,
   });
+  console.log(resizableColumns);
 
   return (
     <div className="app">
+      <Button onClick={resetColumns}>重置Columns</Button>
+      <Divider />
       <Table
         columns={resizableColumns}
         dataSource={data}
@@ -61,6 +64,7 @@ const App = () => {
         bordered
         scroll={{ x: tableWidth || false }}
       />
+
     </div>
   );
 };
