@@ -1,7 +1,10 @@
 {
   "name": "react-antd-column-resize",
   "version": "0.0.3",
-  "description": "盂清风",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/varown/react-antd-column-resize.git"
+  },
   "license": "MIT",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -76,5 +79,10 @@
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
-  "authors": []
+  "authors": [
+    {
+      "name": "varown",
+      "email": "varownm@gmail.com"
+    }
+  ]
 }
