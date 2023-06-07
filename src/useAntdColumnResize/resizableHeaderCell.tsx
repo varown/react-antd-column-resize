@@ -1,12 +1,11 @@
 import React, { memo, useEffect } from 'react';
-import type { ResizeCallbackData } from 'react-resizable'
-import { ResizableHeaderCellProps } from './types';
-import useMergedState from './hooks/useMergedState';
+import type { ResizeCallbackData } from 'react-resizable';
 import { Resizable } from 'react-resizable';
 import 'react-resizable/css/styles.css';
-import './style/index.scss';
+import useMergedState from './hooks/useMergedState';
 import './style/global.scss';
-
+import './style/index.scss';
+import { ResizableHeaderCellProps } from './types';
 
 const ResizableHeaderCell = (props: ResizableHeaderCellProps): JSX.Element => {
   const {
@@ -27,9 +26,9 @@ const ResizableHeaderCell = (props: ResizableHeaderCellProps): JSX.Element => {
     ...restProps
   } = props as ResizableHeaderCellProps;
 
-
   // 先使用useMergedState
   const [interWidth, setInterWidth] = useMergedState(width);
+  const [isResizing, setIsResizing] = useMergedState(false);
 
   useEffect(() => {
     setInterWidth(width);
@@ -37,21 +36,22 @@ const ResizableHeaderCell = (props: ResizableHeaderCellProps): JSX.Element => {
 
   if (!interWidth || Number.isNaN(Number(width))) {
     delete style?.width;
-    return <th
-      {...restProps}
-      onClick={onClick}
-      rowSpan={rowSpan}
-      colSpan={colSpan}
-      className={className}
-      style={{
-        ...style,
-        minWidth: defaultWidth,
-      }}
-    >
-      <span title={title}>{children}</span>
-    </th>
-  };
-
+    return (
+      <th
+        {...restProps}
+        onClick={onClick}
+        rowSpan={rowSpan}
+        colSpan={colSpan}
+        className={className}
+        style={{
+          ...style,
+          minWidth: defaultWidth,
+        }}
+      >
+        <span title={title}>{children}</span>
+      </th>
+    );
+  }
 
   const toggleColumnResizeStyles = (active: boolean) => {
     try {
@@ -64,15 +64,18 @@ const ResizableHeaderCell = (props: ResizableHeaderCellProps): JSX.Element => {
         htmlStyle.cursor = active ? 'col-resize' : '';
       }
     } catch (error) {
-      console.error('An error occurred while toggling column resize styles:', error);
+      console.error(
+        'An error occurred while toggling column resize styles:',
+        error,
+      );
     }
   };
-
 
   const onResizeStart = (_: any, data: ResizeCallbackData) => {
     toggleColumnResizeStyles(true);
     const startWidth = data?.size?.width;
     setInterWidth(startWidth);
+    setIsResizing(true);
   };
 
   const onResize = (_: any, data: ResizeCallbackData) => {
@@ -82,6 +85,7 @@ const ResizableHeaderCell = (props: ResizableHeaderCellProps): JSX.Element => {
 
   const onResizeStop = () => {
     toggleColumnResizeStyles(false);
+    setIsResizing(false);
     if (interWidth === width) return;
     onResizeCallback?.(cellKey, interWidth);
   };
@@ -89,6 +93,12 @@ const ResizableHeaderCell = (props: ResizableHeaderCellProps): JSX.Element => {
   const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
   };
+  // 当组件有问题时候全局样式可能没被移除，移除全局样式
+  // useEffect(() => {
+  //   return () => {
+  //     toggleColumnResizeStyles(false);
+  //   };
+  // }, []);
 
   return (
     <th
@@ -105,15 +115,12 @@ const ResizableHeaderCell = (props: ResizableHeaderCellProps): JSX.Element => {
       <Resizable
         width={interWidth}
         height={0}
-        className='resizable-box'
+        className="resizable-box"
         minConstraints={[minWidth, 50]}
         maxConstraints={[maxWidth, 50]}
         handle={
-          <div
-            className='resizable-handler'
-            onClick={handleClick}
-          >
-            <div className='resizable-line' />
+          <div className="resizable-handler" onClick={handleClick}>
+            <div className="resizable-line" />
           </div>
         }
         draggableOpts={{ enableUserSelectHack: false }}
@@ -121,12 +128,11 @@ const ResizableHeaderCell = (props: ResizableHeaderCellProps): JSX.Element => {
         onResizeStart={onResizeStart}
         onResizeStop={onResizeStop}
       >
-        <div style={{ width: interWidth, height: '100%' }} ></div>
+        <div
+          style={{ width: isResizing ? interWidth : '100%', height: '100%' }}
+        ></div>
       </Resizable>
-      <div
-        {...restProps}
-        className='resizable-title'
-      >
+      <div {...restProps} className="resizable-title">
         {children}
       </div>
     </th>

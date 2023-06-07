@@ -1,4 +1,4 @@
-import { Table, Button, Divider } from 'antd';
+import { Button, Divider, Table } from 'antd';
 import React from 'react';
 import { useAntdColumnResize } from 'react-antd-column-resize';
 
@@ -27,7 +27,7 @@ const App = () => {
       title: 'phone',
       dataIndex: 'phone',
       key: 'phone',
-      fixed: 'right',
+      //fixed: 'right',
     },
   ];
 
@@ -48,9 +48,10 @@ const App = () => {
     },
   ];
 
-  const { resizableColumns, components, tableWidth, resetColumns } = useAntdColumnResize({
-    columns,
-  });
+  const { resizableColumns, components, tableWidth, resetColumns } =
+    useAntdColumnResize({
+      columns,
+    });
   console.log(resizableColumns);
 
   return (
@@ -64,7 +65,6 @@ const App = () => {
         bordered
         scroll={{ x: tableWidth || false }}
       />
-
     </div>
   );
 };
