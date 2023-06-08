@@ -48,11 +48,11 @@ const App = () => {
     },
   ];
 
+
   const { resizableColumns, components, tableWidth, resetColumns } =
     useAntdColumnResize({
       columns,
     });
-  console.log(resizableColumns);
 
   return (
     <div className="app">
@@ -63,6 +63,7 @@ const App = () => {
         dataSource={data}
         components={components}
         bordered
+        //@ts-ignore
         scroll={{ x: tableWidth || false }}
       />
     </div>
