@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import type { ResizeCallbackData } from 'react-resizable';
 import { Resizable } from 'react-resizable';
 import 'react-resizable/css/styles.css';
@@ -28,7 +28,7 @@ const ResizableHeaderCell = (props: ResizableHeaderCellProps): JSX.Element => {
 
   // 先使用useMergedState
   const [interWidth, setInterWidth] = useMergedState(width);
-  const [isResizing, setIsResizing] = useMergedState(false);
+  const [isResizing, setIsResizing] = useState(false);
 
   useEffect(() => {
     setInterWidth(width);
@@ -72,10 +72,10 @@ const ResizableHeaderCell = (props: ResizableHeaderCellProps): JSX.Element => {
   };
 
   const onResizeStart = (_: any, data: ResizeCallbackData) => {
-    toggleColumnResizeStyles(true);
     const startWidth = data?.size?.width;
-    setInterWidth(startWidth);
+    toggleColumnResizeStyles(true);
     setIsResizing(true);
+    setInterWidth(startWidth);
   };
 
   const onResize = (_: any, data: ResizeCallbackData) => {

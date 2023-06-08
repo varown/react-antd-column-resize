@@ -4,15 +4,19 @@ import useMergedState from './hooks/useMergedState';
 import ResizableHeaderCell from './resizableHeaderCell';
 import { ResizableColumnProps, Column } from './types';
 
-const InternalResizableColumn = (props: ResizableColumnProps<Column>) => {
-  const { columns, minWidth = 120, maxWidth = 2000, defaultWidth = 120 } = props;
+const InternalResizableColumn = ({
+  columns,
+  minWidth = 120,
+  maxWidth = 2000,
+  defaultWidth = 120
+}: ResizableColumnProps<Column>) => {
 
-  function countTotalWidth(columns: Column[]): number {
+  const countTotalWidth = useCallback((columns: Column[]): number => {
     if (!Array.isArray(columns)) return 0;
-    return columns.reduce((pre, cur) => {
+    return columns?.reduce((pre, cur) => {
       const isLeaf = !Array.isArray(cur.children);
       const childrenWidth = Array.isArray(cur.children) ? countTotalWidth(cur.children) : 0;
-      const columnWidth = cur.width ?? Number(defaultWidth);
+      const columnWidth = cur?.width ?? Number(defaultWidth);
       const curWidth = isLeaf ? columnWidth : 0;
       if (isNaN(Number(curWidth))) {
         console.error(`Invalid column width: ${curWidth}`);
@@ -20,11 +24,13 @@ const InternalResizableColumn = (props: ResizableColumnProps<Column>) => {
       }
       return pre + childrenWidth + Number(curWidth);
     }, 0);
-  }
+  }, [defaultWidth]);
+
+  const [tableWidth, setTableWidth] = useState<number | false>(() => countTotalWidth(columns) || false);
 
   const handleResizableColumns = useCallback((key: string | number, interWidth: number) => {
     setResizableColumns((prev) => {
-      return prev.map((column) => {
+      return prev?.map((column) => {
         return updateResizableColumns(column, key, interWidth);
       });
     });
@@ -55,10 +61,10 @@ const InternalResizableColumn = (props: ResizableColumnProps<Column>) => {
     };
   }
 
-  const [tableWidth, setTableWidth] = useState<number | boolean>(() => countTotalWidth(columns) || false);
 
   function processColumns(columns: Column[]): Column[] {
-    return columns.map((column) => {
+    return columns?.map((column) => {
+      if (typeof column !== 'object') return column;
       const { children } = column;
       if (Array.isArray(children)) {
         column.children = processColumns(children);
@@ -82,7 +88,7 @@ const InternalResizableColumn = (props: ResizableColumnProps<Column>) => {
   }, [columns]);
 
   const [resizableColumns, setResizableColumns] = useMergedState<Column[]>(initialColumns, {
-    onChange(value, pre) {
+    onChange(value) {
       const allWidth = countTotalWidth(value);
       setTableWidth(allWidth);
     },
