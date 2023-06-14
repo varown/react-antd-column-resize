@@ -33,5 +33,5 @@ jobs:
       - name: Deploy to Github
         uses: JamesIves/github-pages-deploy-action@4.0.0
         with:
-          branch: build # 打包的内容放到build分支下
+          branch: build
           folder: dist
