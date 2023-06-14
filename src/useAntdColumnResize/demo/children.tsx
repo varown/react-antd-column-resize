@@ -1,6 +1,21 @@
 import { Table } from 'antd';
 import React from 'react';
 import { useAntdColumnResize } from 'react-antd-column-resize';
+
+type dataType = {
+  key: number;
+  name: string;
+  age: number;
+  street: string;
+  building: string;
+  number: number;
+  companyAddress: string;
+  companyName: string;
+  [string: string]: any;
+
+};
+
+
 const columns = [
   {
     title: 'NameNameNameName',
@@ -18,7 +33,7 @@ const columns = [
         value: 'John',
       },
     ],
-    onFilter: (value, record) => record.name.indexOf(value) === 0,
+    onFilter: (value: string, record: dataType) => record.name.indexOf(value) === 0,
   },
   {
     title: 'Company',
@@ -47,7 +62,7 @@ const columns = [
         dataIndex: 'age',
         key: 'age',
         width: 150,
-        sorter: (a, b) => a.age - b.age,
+        sorter: (a: any, b: any) => a.age - b.age,
       },
       {
         title: 'Address',
@@ -89,7 +104,7 @@ const columns = [
   },
 ];
 
-const data = [];
+const data: dataType[] = [];
 for (let i = 0; i < 100; i++) {
   data.push({
     key: i,
@@ -115,6 +130,7 @@ const App = () => {
         components={components}
         dataSource={data}
         bordered
+        //@ts-ignore
         scroll={{ x: tableWidth }}
       />
     </>

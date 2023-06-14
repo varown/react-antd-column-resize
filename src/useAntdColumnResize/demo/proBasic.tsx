@@ -55,10 +55,12 @@ const App = () => {
   return (
     <div className="app">
       <ProTable
+        //@ts-ignore
         columns={resizableColumns}
         dataSource={data}
         components={components}
         bordered
+        //@ts-ignore
         scroll={{ x: tableWidth || false }}
       />
     </div>

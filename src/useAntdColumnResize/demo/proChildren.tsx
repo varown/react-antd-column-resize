@@ -1,6 +1,20 @@
 import { ProTable } from '@ant-design/pro-components';
 import React from 'react';
 import { useAntdColumnResize } from 'react-antd-column-resize';
+
+type dataType = {
+  key: number;
+  name: string;
+  age: number;
+  street: string;
+  building: string;
+  number: number;
+  companyAddress: string;
+  companyName: string;
+  [string: string]: any;
+
+};
+
 const columns = [
   {
     title: 'NameNameNameName',
@@ -18,7 +32,7 @@ const columns = [
         value: 'John',
       },
     ],
-    onFilter: (value, record) => record.name.indexOf(value) === 0,
+    onFilter: (value: string, record: dataType) => record.name.indexOf(value) === 0,
   },
   {
     title: 'Company',
@@ -47,7 +61,7 @@ const columns = [
         dataIndex: 'age',
         key: 'age',
         width: 150,
-        sorter: (a, b) => a.age - b.age,
+        sorter: (a: dataType, b: dataType) => a.age - b.age,
       },
       {
         title: 'Address',
@@ -89,7 +103,7 @@ const columns = [
   },
 ];
 
-const data = [];
+const data: dataType[] = [];
 for (let i = 0; i < 100; i++) {
   data.push({
     key: i,
@@ -111,10 +125,12 @@ const App = () => {
   return (
     <>
       <ProTable
+        //@ts-ignore
         columns={resizableColumns}
         dataSource={data}
         components={components}
         bordered
+        //@ts-ignore
         scroll={{ x: tableWidth || false }}
       />
     </>
