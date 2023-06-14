@@ -4,8 +4,13 @@ import useMergedState from './hooks/useMergedState';
 import ResizableHeaderCell from './resizableHeaderCell';
 import { ResizableColumnProps, Column } from './types';
 
+// 问题梳理 现在是  props propsColumns 在不变化的情况当 外面页面重新渲染的时候 会导致 重新渲染 这样会无限循环
+// 
+
+
+
 const InternalResizableColumn = ({
-  columns,
+  columns: propsColumns,
   minWidth = 120,
   maxWidth = 2000,
   defaultWidth = 120
@@ -26,7 +31,7 @@ const InternalResizableColumn = ({
     }, 0);
   }, [defaultWidth]);
 
-  const [tableWidth, setTableWidth] = useState<number | false>(() => countTotalWidth(columns) || false);
+  const [tableWidth, setTableWidth] = useState<number | false>(() => countTotalWidth(propsColumns) || false);
 
   const handleResizableColumns = useCallback((key: string | number, interWidth: number) => {
     setResizableColumns((prev) => {
@@ -83,9 +88,11 @@ const InternalResizableColumn = ({
     });
   }
 
+
   const initialColumns: Column[] = useMemo(() => {
-    return processColumns(columns);
-  }, [columns]);
+    const initHandleColumns = processColumns(propsColumns);
+    return initHandleColumns;
+  }, [propsColumns]);
 
   const [resizableColumns, setResizableColumns] = useMergedState<Column[]>(initialColumns, {
     onChange(value) {
@@ -93,6 +100,7 @@ const InternalResizableColumn = ({
       setTableWidth(allWidth);
     },
   });
+
 
   const resetColumns = useCallback(() => {
     setResizableColumns(initialColumns);

@@ -1,11 +1,12 @@
 import React, { memo, useEffect, useState } from 'react';
 import type { ResizeCallbackData } from 'react-resizable';
+import useMergedState from './hooks/useMergedState';
+import { ResizableHeaderCellProps } from './types';
 import { Resizable } from 'react-resizable';
 import 'react-resizable/css/styles.css';
-import useMergedState from './hooks/useMergedState';
 import './style/global.scss';
 import './style/index.scss';
-import { ResizableHeaderCellProps } from './types';
+
 
 const ResizableHeaderCell = (props: ResizableHeaderCellProps): JSX.Element => {
   const {
@@ -93,12 +94,6 @@ const ResizableHeaderCell = (props: ResizableHeaderCellProps): JSX.Element => {
   const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
   };
-  // 当组件有问题时候全局样式可能没被移除，移除全局样式
-  // useEffect(() => {
-  //   return () => {
-  //     toggleColumnResizeStyles(false);
-  //   };
-  // }, []);
 
   return (
     <th
@@ -140,3 +135,5 @@ const ResizableHeaderCell = (props: ResizableHeaderCellProps): JSX.Element => {
 };
 
 export default memo(ResizableHeaderCell);
+
+
