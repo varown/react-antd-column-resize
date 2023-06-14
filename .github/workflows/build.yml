@@ -35,3 +35,4 @@ jobs:
         with:
           branch: build
           folder: dist
+          token: ${{ secrets.GITHUB_TOKEN }}
