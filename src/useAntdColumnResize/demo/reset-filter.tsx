@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Input, TableProps } from 'antd';
-import { Button, Space, Table } from 'antd';
+import { TableProps, Button, Space, Table } from 'antd';
 import type { ColumnsType, FilterValue, SorterResult } from 'antd/es/table/interface';
 import { useAntdColumnResize } from "react-antd-column-resize"
 interface DataType {
