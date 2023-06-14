@@ -1,0 +1,1 @@
+export var INTERNAL_KEY = 'dataIndex';
