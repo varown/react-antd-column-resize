@@ -1,37 +1,31 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useMemo, useCallback } from 'react';
 import { INTERNAL_KEY } from './constant';
 import useMergedState from './hooks/useMergedState';
 import ResizableHeaderCell from './resizableHeaderCell';
 import { ResizableColumnProps, Column } from './types';
 
-// 问题梳理 现在是  props propsColumns 在不变化的情况当 外面页面重新渲染的时候 会导致 重新渲染 这样会无限循环
-// 
+const InternalResizableColumn = (props: ResizableColumnProps<Column>) => {
 
-
-
-const InternalResizableColumn = ({
-  columns: propsColumns,
-  minWidth = 120,
-  maxWidth = 2000,
-  defaultWidth = 120
-}: ResizableColumnProps<Column>) => {
+  const { columns: propsColumns, minWidth = 120, maxWidth = 2000, defaultWidth = 120 } = props
 
   const countTotalWidth = useCallback((columns: Column[]): number => {
     if (!Array.isArray(columns)) return 0;
-    return columns?.reduce((pre, cur) => {
-      const isLeaf = !Array.isArray(cur.children);
-      const childrenWidth = Array.isArray(cur.children) ? countTotalWidth(cur.children) : 0;
-      const columnWidth = cur?.width ?? Number(defaultWidth);
+    const calculateWidth = (column: Column): number => {
+      const children = column?.children;
+      const isLeaf = !Array.isArray(children);
+      const childrenWidth = Array.isArray(children) ? countTotalWidth(children) : 0;
+      const columnWidth = column?.width ?? Number(defaultWidth);
       const curWidth = isLeaf ? columnWidth : 0;
       if (isNaN(Number(curWidth))) {
         console.error(`Invalid column width: ${curWidth}`);
-        return pre + childrenWidth;
+        return childrenWidth;
       }
-      return pre + childrenWidth + Number(curWidth);
-    }, 0);
+      return childrenWidth + Number(curWidth);
+    }
+    return columns?.reduce((pre, cur) => pre + calculateWidth(cur), 0);
   }, [defaultWidth]);
 
-  const [tableWidth, setTableWidth] = useState<number | false>(() => countTotalWidth(propsColumns) || false);
+
 
   const handleResizableColumns = useCallback((key: string | number, interWidth: number) => {
     setResizableColumns((prev) => {
@@ -65,8 +59,6 @@ const InternalResizableColumn = ({
       }),
     };
   }
-
-
   function processColumns(columns: Column[]): Column[] {
     return columns?.map((column) => {
       if (typeof column !== 'object') return column;
@@ -87,20 +79,11 @@ const InternalResizableColumn = ({
       };
     });
   }
+  const initialColumns: Column[] = useMemo(() => processColumns(propsColumns), [propsColumns]);
 
+  const [resizableColumns, setResizableColumns] = useMergedState<Column[]>(initialColumns, {});
 
-  const initialColumns: Column[] = useMemo(() => {
-    const initHandleColumns = processColumns(propsColumns);
-    return initHandleColumns;
-  }, [propsColumns]);
-
-  const [resizableColumns, setResizableColumns] = useMergedState<Column[]>(initialColumns, {
-    onChange(value) {
-      const allWidth = countTotalWidth(value);
-      setTableWidth(allWidth);
-    },
-  });
-
+  const tableWidth = useMemo(() => countTotalWidth(resizableColumns), [resizableColumns]);
 
   const resetColumns = useCallback(() => {
     setResizableColumns(initialColumns);

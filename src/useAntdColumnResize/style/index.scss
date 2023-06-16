@@ -3,7 +3,7 @@
   box-sizing: border-box;
   &:last-child {
     .resizable-handler {
-      right: 0px;
+      right: -2px;
     }
   }
 }
