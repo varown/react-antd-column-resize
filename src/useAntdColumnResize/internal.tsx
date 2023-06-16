@@ -6,7 +6,8 @@ import { ResizableColumnProps, Column } from './types';
 
 const InternalResizableColumn = (props: ResizableColumnProps<Column>) => {
 
-  const { columns: propsColumns, minWidth = 120, maxWidth = 2000, defaultWidth = 120 } = props
+  const { columns: propsColumns, minWidth = 120, maxWidth = 2000, defaultWidth = 120 } = props;
+
 
   const countTotalWidth = useCallback((columns: Column[]): number => {
     if (!Array.isArray(columns)) return 0;
@@ -79,6 +80,9 @@ const InternalResizableColumn = (props: ResizableColumnProps<Column>) => {
       };
     });
   }
+
+
+
   const initialColumns: Column[] = useMemo(() => processColumns(propsColumns), [propsColumns]);
 
   const [resizableColumns, setResizableColumns] = useMergedState<Column[]>(initialColumns, {});
@@ -96,6 +100,18 @@ const InternalResizableColumn = (props: ResizableColumnProps<Column>) => {
       },
     };
   }, []);
+
+
+  if (propsColumns.every((column) => 'width' in column)) {
+    console.warn('All columns have a width property, so the column will not be resizable');
+    return {
+      resizableColumns: propsColumns,
+      components: {},
+      tableWidth: false,
+      resetColumns: () => { },
+    };
+  };
+
 
   return {
     resizableColumns,
