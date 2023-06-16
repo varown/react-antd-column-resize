@@ -1,20 +1,11 @@
 ---
 hero:
-  title: library
-  description: 盂清风
+  title: Hello
+  description: 欢迎使用，欢迎star，欢迎issue 🎉🎉🎉
   actions:
-    - text: Hello
-      link: /
-    - text: World
-      link: /
+    - text: github
+      link: https://github.com/varown/react-antd-column-resize
+    - text: npm
+      link: https://www.npmjs.com/package/react-antd-column-resize
 features:
-  - title: Hello
-    emoji: 💎
-    description: Put hello description here
-  - title: World
-    emoji: 🌈
-    description: Put world description here
-  - title: '!'
-    emoji: 🚀
-    description: Put ! description here
 ---
