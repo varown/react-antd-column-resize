@@ -20,6 +20,15 @@ demo:
 | maxWidth     | 最大宽度 | number                      | 2000   |
 | defaultWidth | 默认宽度 | number                      | 120    |
 
+### 返回数据
+
+| 参数             | 说明            | 类型                        | 默认值 |
+| ---------------- | --------------- | --------------------------- | ------ |
+| resizableColumns | 可拖动列配置    | object[] antd table columns | -      |
+| components       | antd table 组件 | object                      | -      |
+| tableWidth       | 表格宽度        | number                      | -      |
+| resetColumns     | 重置列          | function                    | -      |
+
 ### 注意事项
 
 1、columns 设置每项 width 时，默认该项是可拖动项。
