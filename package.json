@@ -1,6 +1,7 @@
 {
   "name": "react-antd-column-resize",
   "version": "0.0.6",
+  "homepage": "https://varown.github.io/react-antd-column-resize/components/use-antd-column-resize",
   "repository": {
     "type": "git",
     "url": "https://github.com/varown/react-antd-column-resize.git"
