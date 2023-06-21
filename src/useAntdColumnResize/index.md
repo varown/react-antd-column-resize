@@ -7,7 +7,7 @@ demo:
 
 <code  src="./demo/basic.tsx" >基本使用</code>
 <code  src="./demo/children.tsx" >含有 children</code>
-<code src="./demo/row-selection.tsx">可选择</code>
+<code  src="./demo/row-selection.tsx">可选择</code>
 <code  src="./demo/proBasic.tsx" >ProTable 基本使用</code>
 <code  src="./demo/proChildren.tsx" >ProTable 含有 children</code>
 

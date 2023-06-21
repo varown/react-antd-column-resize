@@ -1,4 +1,4 @@
-import { useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { INTERNAL_KEY } from './constant';
 import useMergedState from './hooks/useMergedState';
 import ResizableHeaderCell from './resizableHeaderCell';
@@ -80,13 +80,10 @@ const InternalResizableColumn = (props: ResizableColumnProps<Column>) => {
       };
     });
   }
-
-
-
   const initialColumns: Column[] = useMemo(() => processColumns(propsColumns), [propsColumns]);
-
-  const [resizableColumns, setResizableColumns] = useMergedState<Column[]>(initialColumns, {});
-
+  const [cachedResizableColumns] = useMergedState<Column[]>(initialColumns, {});
+  const [resizableColumns, setResizableColumns] = useState(cachedResizableColumns);
+  
   const tableWidth = useMemo(() => countTotalWidth(resizableColumns), [resizableColumns]);
 
   const resetColumns = useCallback(() => {
