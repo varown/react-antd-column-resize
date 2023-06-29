@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState } from 'react';
+import React, { memo, useEffect, useState} from 'react';
 import type { ResizeCallbackData } from 'react-resizable';
 import useMergedState from './hooks/useMergedState';
 import { ResizableHeaderCellProps } from './types';
@@ -13,7 +13,6 @@ const ResizableHeaderCell = (props: ResizableHeaderCellProps): JSX.Element => {
     width,
     minWidth,
     maxWidth,
-    defaultWidth,
     cellKey,
     onResize: onResizeCallback,
     children,
@@ -46,7 +45,7 @@ const ResizableHeaderCell = (props: ResizableHeaderCellProps): JSX.Element => {
         className={className}
         style={{
           ...style,
-          minWidth: defaultWidth,
+          minWidth,
         }}
       >
         <span title={title}>{children}</span>
@@ -71,16 +70,22 @@ const ResizableHeaderCell = (props: ResizableHeaderCellProps): JSX.Element => {
       );
     }
   };
+  const diffWidth = (width: number): number => {
+    let viceWidth = width;
+    if (viceWidth >= maxWidth) viceWidth = maxWidth;
+    if (viceWidth <= minWidth) viceWidth = minWidth;
+    return viceWidth;
+  }
 
   const onResizeStart = (_: any, data: ResizeCallbackData) => {
-    const startWidth = data?.size?.width;
+    const startWidth = diffWidth(data?.size?.width);
     toggleColumnResizeStyles(true);
     setIsResizing(true);
     setInterWidth(startWidth);
   };
 
   const onResize = (_: any, data: ResizeCallbackData) => {
-    const nowWidth = data?.size?.width;
+    const nowWidth = diffWidth(data?.size?.width);
     setInterWidth(nowWidth);
   };
 
@@ -88,11 +93,9 @@ const ResizableHeaderCell = (props: ResizableHeaderCellProps): JSX.Element => {
     toggleColumnResizeStyles(false);
     setIsResizing(false);
     if (interWidth === width) return;
-    onResizeCallback?.(cellKey, interWidth);
-  };
-
-  const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    e.stopPropagation();
+    const nowWidth = diffWidth(interWidth);
+    nowWidth !== interWidth && setInterWidth(nowWidth);
+    onResizeCallback?.(cellKey, nowWidth);
   };
 
   return (
@@ -114,7 +117,7 @@ const ResizableHeaderCell = (props: ResizableHeaderCellProps): JSX.Element => {
         minConstraints={[minWidth, 50]}
         maxConstraints={[maxWidth, 50]}
         handle={
-          <div className="resizable-handler" onClick={handleClick}>
+          <div className="resizable-handler" >
             <div className="resizable-line" />
           </div>
         }
@@ -124,7 +127,11 @@ const ResizableHeaderCell = (props: ResizableHeaderCellProps): JSX.Element => {
         onResizeStop={onResizeStop}
       >
         <div
-          style={{ width: isResizing ? interWidth : '100%', height: '100%' }}
+          style={{
+            height: '100%',
+            width: isResizing ? interWidth : '100%',
+            minWidth: `${interWidth} !important`
+          }}
         ></div>
       </Resizable>
       <div {...restProps} className="resizable-title">
