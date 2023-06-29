@@ -120,9 +120,7 @@ for (let i = 0; i < 100; i++) {
 }
 
 const App = () => {
-  const { resizableColumns, components, tableWidth } = useAntdColumnResize({
-    columns,
-  });
+  const { resizableColumns, components, tableWidth } = useAntdColumnResize(() => { return { columns } }, []);
   return (
     <>
       <Table

@@ -48,9 +48,7 @@ const App = () => {
     },
   ];
 
-  const { resizableColumns, components, tableWidth } = useAntdColumnResize({
-    columns,
-  });
+  const { resizableColumns, components, tableWidth } = useAntdColumnResize(() => { return { columns } }, []);;
 
   return (
     <div className="app">

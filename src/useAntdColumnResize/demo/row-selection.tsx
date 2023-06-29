@@ -73,9 +73,7 @@ const App: React.FC = () => {
   const [selectionType, setSelectionType] = useState<'checkbox' | 'radio'>(
     'checkbox',
   );
-  const { resizableColumns, components, tableWidth } = useAntdColumnResize({
-    columns,
-  });
+  const { resizableColumns, components, tableWidth } = useAntdColumnResize(() => { return { columns } }, []);
   return (
     <div>
       <Radio.Group

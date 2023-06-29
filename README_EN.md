@@ -96,13 +96,12 @@ export default App;
 | columns      | Column config | object[] antd table columns | -             |
 | minWidth     | Minimum width | number                      | 120           |
 | maxWidth     | Maximum width | number                      | 2000          |
-| defaultWidth | Default width | number                      | 120           |
 
 ## Notes
 
 1、When setting the `width` property for each column in `columns`, it indicates that the column is resizable.
 
-2、At least one column in `columns` should not have a width specified in order to enable resizing. The `defaultWidth` will be used as the minimum width for columns without a specified width. This is because when the sum of the specified widths in `columns` is less than the table width, resizing may behave unexpectedly.
+2、At least one column in `columns` should not have a width specified in order to enable resizing. The `minWidth` will be used as the minimum width for columns without a specified width. This is because when the sum of the specified widths in `columns` is less than the table width, resizing may behave unexpectedly.
 
 3、`minWidth` and `maxWidth` represent the draggable distance. It is recommended to set minWidth to be less than or equal to the `minimum` width specified in `columns`.
 

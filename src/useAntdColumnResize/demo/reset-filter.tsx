@@ -105,7 +105,7 @@ const App: React.FC = () => {
       ellipsis: true,
     },
   ];
-  const { resizableColumns, components, tableWidth } = useAntdColumnResize({ columns });
+  const { resizableColumns, components, tableWidth } = useAntdColumnResize(() => { return { columns } }, []);
   console.log('resizableColumns', resizableColumns)
   return (
     <>
