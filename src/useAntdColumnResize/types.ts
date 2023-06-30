@@ -16,7 +16,7 @@ export type resizeDataType<Column> = {
 };
 
 export interface ResizableColumnProps<Column> {
-  dataFunc: () => resizeDataType<Column>;
+  setup: () => resizeDataType<Column>;
   dependencies: any[];
 }
 
