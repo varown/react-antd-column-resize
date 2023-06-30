@@ -1,5 +1,5 @@
 import { Button, Divider, Table } from 'antd';
-import React, { useState } from 'react';
+import React from 'react';
 import { useAntdColumnResize } from 'react-antd-column-resize';
 
 const App = () => {
@@ -15,7 +15,7 @@ const App = () => {
       title: 'Age',
       dataIndex: 'age',
       key: 'age',
-      width: 100,
+      width: 120,
     },
     {
       title: 'Address',
@@ -47,7 +47,10 @@ const App = () => {
       phone: '1588553336',
     },
   ];
-  const { resizableColumns, components, tableWidth, resetColumns } = useAntdColumnResize(() => { return { columns } }, []);
+  const { resizableColumns, components, tableWidth, resetColumns } =
+    useAntdColumnResize(() => {
+      return { columns };
+    }, []);
 
   return (
     <div className="app">
