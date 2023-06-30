@@ -1,4 +1,4 @@
-import { Button, Divider, Table } from 'antd';
+import { Button, Divider, Space, Table } from 'antd';
 import React, { useState } from 'react';
 import { useAntdColumnResize } from 'react-antd-column-resize';
 
@@ -57,14 +57,17 @@ const App = () => {
     setColumns([...columns]);
   };
 
-  const { resizableColumns, components, tableWidth } =
+  const { resizableColumns, components, tableWidth, resetColumns } =
     useAntdColumnResize(() => {
       return { columns };
     }, [columns]);
 
   return (
     <div className="app">
-      <Button onClick={addColumns}>添加Columns</Button>
+      <Space size={20}>
+        <Button onClick={addColumns}>添加Columns</Button>
+        <Button onClick={resetColumns}>重置Columns</Button>
+      </Space>
       <Divider />
       <Table
         columns={resizableColumns}
