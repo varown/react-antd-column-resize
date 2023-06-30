@@ -12,7 +12,16 @@ demo:
 <code  src="./demo/proBasic.tsx" >ProTable 基本使用</code>
 <code  src="./demo/proChildren.tsx" >ProTable 含有 children</code>
 
-### API
+### useAntdColumnResize API
+
+useAntdColumnResize(setup: () => `resizeDataType<Column>`, dependencies: any[])
+
+| 参数         | 说明           | 类型                           | 默认值 |
+| ------------ | -------------- | ------------------------------ | ------ |
+| setup        | 获取列配置函数 | `() => resizeDataType<Column>` | -      |
+| dependencies | 更新依赖项     | `any[]`                        | -      |
+
+### resizeDataType setup 返回数据类型
 
 | 参数     | 说明     | 类型                        | 默认值 |
 | -------- | -------- | --------------------------- | ------ |

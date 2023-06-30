@@ -19,7 +19,7 @@ yarn add react-antd-column-resize
 ## Usage
 
 ```jsx
-import { Table } from 'antd';
+import { Button, Divider, Table } from 'antd';
 import React from 'react';
 import { useAntdColumnResize } from 'react-antd-column-resize';
 
@@ -68,13 +68,15 @@ const App = () => {
       phone: '1588553336',
     },
   ];
-
-  const { resizableColumns, components, tableWidth } = useAntdColumnResize({
-    columns,
-  });
+  const { resizableColumns, components, tableWidth, resetColumns } =
+    useAntdColumnResize(() => {
+      return { columns, minWidth: 100 };
+    }, []);
 
   return (
     <div className="app">
+      <Button onClick={resetColumns}>重置Columns</Button>
+      <Divider />
       <Table
         columns={resizableColumns}
         dataSource={data}
@@ -91,11 +93,18 @@ export default App;
 
 ## useAntdColumnResize API
 
-| Parameter    | Description   | Type                        | Default Value |
-| ------------ | ------------- | --------------------------- | ------------- |
-| columns      | Column config | object[] antd table columns | -             |
-| minWidth     | Minimum width | number                      | 120           |
-| maxWidth     | Maximum width | number                      | 2000          |
+useAntdColumnResize(setup: () => resizeDataType<Column>, dependencies: any[])
+
+| 参数         | 说明              | 类型                           | 默认值 |
+| ------------ | ----------------- | ------------------------------ | ------ |
+| setup        | get Column config | `() => resizeDataType<Column>` | -      |
+| dependencies | dependencies      | `any[]`                        | -      |
+
+| Parameter | Description   | Type                        | Default Value |
+| --------- | ------------- | --------------------------- | ------------- |
+| columns   | Column config | object[] antd table columns | -             |
+| minWidth  | Minimum width | number                      | 120           |
+| maxWidth  | Maximum width | number                      | 2000          |
 
 ## Notes
 

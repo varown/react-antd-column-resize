@@ -23,7 +23,7 @@ yarn add react-antd-column-resize
 ## 使用
 
 ```jsx
-import { Table } from 'antd';
+import { Button, Divider, Table } from 'antd';
 import React from 'react';
 import { useAntdColumnResize } from 'react-antd-column-resize';
 
@@ -72,13 +72,15 @@ const App = () => {
       phone: '1588553336',
     },
   ];
-
-  const { resizableColumns, components, tableWidth } = useAntdColumnResize({
-    columns,
-  });
+  const { resizableColumns, components, tableWidth, resetColumns } =
+    useAntdColumnResize(() => {
+      return { columns, minWidth: 100 };
+    }, []);
 
   return (
     <div className="app">
+      <Button onClick={resetColumns}>重置Columns</Button>
+      <Divider />
       <Table
         columns={resizableColumns}
         dataSource={data}
@@ -95,11 +97,20 @@ export default App;
 
 ## useAntdColumnResize API
 
-| 参数         | 说明     | 类型                        | 默认值 |
-| ------------ | -------- | --------------------------- | ------ |
-| columns      | 列配置   | object[] antd table columns | -      |
-| minWidth     | 最小宽度 | number                      | 120    |
-| maxWidth     | 最大宽度 | number                      | 2000   |
+useAntdColumnResize(setup: () => resizeDataType<Column>, dependencies: any[])
+
+| 参数         | 说明           | 类型                           | 默认值 |
+| ------------ | -------------- | ------------------------------ | ------ |
+| setup        | 获取列配置函数 | `() => resizeDataType<Column>` | -      |
+| dependencies | 更新依赖项     | `any[]`                        | -      |
+
+### resizeDataType<Column> setup 返回数据类型
+
+| 参数     | 说明     | 类型                        | 默认值 |
+| -------- | -------- | --------------------------- | ------ |
+| columns  | 列配置   | object[] antd table columns | -      |
+| minWidth | 最小宽度 | number                      | 120    |
+| maxWidth | 最大宽度 | number                      | 2000   |
 
 ## useAntdColumnResize 返回数据
 
@@ -116,6 +127,7 @@ export default App;
 2. `columns` 至少需要一项不设置 `width`，否则无法拖动，`minWidth` 会默认是未设置项的最小宽度。
    原因：当 `columns` 每项设置的宽度之和小于表格宽度时，会造成拖动异常，所以需要至少一项不设置宽度，让其自适应。
 3. `minWidth`、`maxWidth` 代表可拖动的距离，建议 `minWidth`等于 `columns` 设置的最小宽度项，最大宽度同理应大于`columns` 设置的最大宽度项。
+4. 请不要欺骗`useAntdColumnResize`，`dependencies` 依赖项请按需添加，否则会造成无限循环。
 
 ### 贡献
 
