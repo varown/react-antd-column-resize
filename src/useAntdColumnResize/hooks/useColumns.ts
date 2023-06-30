@@ -1,12 +1,10 @@
-import { useMemo, useState, useCallback } from 'react';
+import { useRef, useMemo, useState, useCallback } from 'react';
 import { Column, resizeDataType } from '../types';
 import { INTERNAL_KEY } from '../constant';
 
-const useColumns = ({
-  columns,
-  minWidth = 120,
-  maxWidth = 2000,
-}: resizeDataType<Column>) => {
+const useColumns = ({ columns, minWidth = 120, maxWidth = 2000, }: resizeDataType<Column>) => {
+
+  const columnMap = useRef(new Map<string | number, number>()).current;
 
   const [resizableColumns, setResizableColumns] = useState<Column[]>([]);
 
@@ -25,6 +23,7 @@ const useColumns = ({
 
 
   const handleResizableColumns = useCallback((key: string | number, interWidth: number) => {
+    columnMap.set(key, interWidth);
     setResizableColumns((prev) => prev?.map((column) => updateResizableColumns(column, key, interWidth)));
   }, []);
 
@@ -48,70 +47,6 @@ const useColumns = ({
       };
     });
   }, [minWidth, maxWidth, handleResizableColumns])
-
-  const createColumns = (resizableColumns: Column[], initialColumns: Column[]): Column[] => {
-    if (resizableColumns === initialColumns || !resizableColumns || !resizableColumns.length) {
-      return initialColumns;
-    }
-
-    const columnMap = new Map<string | number, number>();
-
-    const traverseColumns = (columns: Column[]) => {
-      for (const column of columns) {
-        const key = column[INTERNAL_KEY] as string | number | undefined || column.key;
-
-        if (key && column?.width) {
-          columnMap.set(key, Number(column?.width));
-        }
-
-        if (Array.isArray(column.children)) {
-          traverseColumns(column.children);
-        }
-      }
-    };
-
-    traverseColumns(resizableColumns);
-
-    const updateColumn = (column: Column): Column => {
-      const key = column[INTERNAL_KEY] as string | number | undefined || column.key;
-
-      if (key && columnMap.has(key)) {
-        const width = columnMap.get(key);
-
-        return {
-          ...column,
-          width,
-          onHeaderCell: () => ({
-            minWidth,
-            maxWidth,
-            ...(width && { width }),
-            cellKey: key,
-            onResize: handleResizableColumns,
-          }),
-        };
-      }
-
-      if (Array.isArray(column.children)) {
-        return {
-          ...column,
-          children: column.children.map(updateColumn),
-        };
-      }
-
-      return column;
-    };
-    const updatedColumns: Column[] = initialColumns.map(updateColumn);
-
-
-    return updatedColumns;
-  };
-
-  const initialColumns: Column[] = useMemo(() => {
-    const initResizableColumns = initColumns(columns)
-    setResizableColumns(createColumns(resizableColumns, initResizableColumns));
-    return initResizableColumns;
-  }, [columns, initColumns]);
-
 
   const updateResizableColumns = useCallback(<T extends Column>(
     column: T,
@@ -138,12 +73,32 @@ const useColumns = ({
       }),
     };
   }, [minWidth, maxWidth, handleResizableColumns])
+  const mergedColumns = (resizableColumns: Column[], initialColumns: Column[]): Column[] => {
+    if (resizableColumns === initialColumns || !resizableColumns || !resizableColumns.length) {
+      return initialColumns;
+    }
+    return initialColumns.map((item) => {
+      const key = item[INTERNAL_KEY] as string | number | undefined || item.key;
+      if (key && columnMap.has(key)) {
+        const width = columnMap.get(key)
+        return updateResizableColumns(item, key, Number(width))
+      }
+      return item
+    });
+
+  };
 
 
 
+  const initialColumns: Column[] = useMemo(() => {
+    const initResizableColumns = initColumns(columns)
+    setResizableColumns(mergedColumns(resizableColumns, initResizableColumns));
+    return initResizableColumns;
+  }, [columns, initColumns]);
 
 
   const resetColumns = useCallback(() => {
+    columnMap.clear();
     setResizableColumns(initialColumns);
   }, [initialColumns]);
 
