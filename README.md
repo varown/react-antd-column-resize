@@ -134,3 +134,7 @@ useAntdColumnResize(setup: () => resizeDataType<Column>, dependencies: any[])
 如果对您有帮助希望动动您发财的小手，给个 star 吧！
 
 欢迎贡献代码、提出问题或者改进建议。请查阅贡献指南了解更多详情。
+
+## Stargazers over time
+
+[![Stargazers over time](https://starchart.cc/varown/react-antd-column-resize.svg)](https://starchart.cc/varown/react-antd-column-resize)
