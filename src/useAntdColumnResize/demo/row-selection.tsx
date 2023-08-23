@@ -15,6 +15,7 @@ const columns: ColumnsType<DataType> = [
     dataIndex: 'name',
     width: 150,
     render: (text: string) => <a>{text}</a>,
+    // fixed: 'left',
   },
   {
     title: 'Age',

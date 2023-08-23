@@ -10,7 +10,7 @@ const useColumns = ({ columns, minWidth = 120, maxWidth = 2000, }: resizeDataTyp
 
   const calculateWidth = useCallback((column: Column): number => {
     const isLeaf = Array.isArray(column?.children);
-    let totalWidth = isLeaf ? 0 : Number((column?.width ?? Number(minWidth + 15)));
+    let totalWidth = isLeaf ? 0 : Number((column?.width ?? Number(minWidth + 34)));
     if (isLeaf) {
       totalWidth = + (column?.children as [])?.reduce((sum, child) => sum + calculateWidth(child), 0);
     }
@@ -73,6 +73,7 @@ const useColumns = ({ columns, minWidth = 120, maxWidth = 2000, }: resizeDataTyp
       }),
     };
   }, [minWidth, maxWidth, handleResizableColumns])
+
   const mergedColumns = (resizableColumns: Column[], initialColumns: Column[]): Column[] => {
     if (resizableColumns === initialColumns || !resizableColumns || !resizableColumns.length) {
       return initialColumns;
