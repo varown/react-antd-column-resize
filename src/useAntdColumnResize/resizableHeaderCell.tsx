@@ -1,11 +1,11 @@
-import React, { memo, useEffect, useState} from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import type { ResizeCallbackData } from 'react-resizable';
 import useMergedState from './hooks/useMergedState';
 import { ResizableHeaderCellProps } from './types';
 import { Resizable } from 'react-resizable';
 import 'react-resizable/css/styles.css';
-import './style/global.scss';
-import './style/index.scss';
+import './style/global.css';
+import './style/index.css';
 
 
 const ResizableHeaderCell = (props: ResizableHeaderCellProps): JSX.Element => {
