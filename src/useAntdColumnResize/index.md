@@ -40,9 +40,8 @@ useAntdColumnResize(setup: () => `resizeDataType<Column>`, dependencies: any[])
 
 ### 注意事项
 
-1、columns 设置每项 width 时，默认该项是可拖动项。
-
-2、columns 至少需要一项不设置 width，否则无法拖动，minWidth 会默认是未设置项的最小宽度。
-原因：当 columns 每项设置的宽度之和小于 table 宽度时，会造成拖动异常，所以需要至少一项不设置宽度，让其自适应。
-
-3、minWidth、maxWidth 代表可拖动的距离，建议 minWidth 等于 columns 设置的最小宽度项,最大宽度同理应大于 columns 设置的最大宽度项。
+1. `columns` 设置每项 `width` 时，默认该项是可拖动项,并且请确保含有唯一标识(`dataIndex或者key`)。
+2. `columns` 至少需要一项不设置 `width`，否则会拖动异常，`minWidth` 默认是未设置项宽度的最小宽度。
+   原因：当 `columns` 每项设置的宽度之和小于表格宽度时，会造成拖动异常，所以需要至少一项不设置宽度，让其自适应。
+3. `minWidth`、`maxWidth` 代表可拖动的距离，建议 `minWidth`等于 `columns` 设置的最小宽度项，最大宽度同理应大于`columns` 设置的最大宽度项。
+4. 请不要欺骗`useAntdColumnResize`，`dependencies` 依赖项请按需添加，否则会造成无限循环。
