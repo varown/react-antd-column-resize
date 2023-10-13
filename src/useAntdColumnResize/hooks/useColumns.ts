@@ -29,18 +29,21 @@ const useColumns = ({ columns, minWidth = 120, maxWidth = 2000, }: resizeDataTyp
 
 
   const initColumns = useCallback((columns: Column[]): Column[] => {
-    return columns?.map((column) => {
+    return columns?.map((column, index: number) => {
       if (typeof column !== 'object') return column;
       const { children } = column;
       if (Array.isArray(children)) {
         column.children = initColumns(children);
       }
+      const deviationWidth: number = index % 2 === 0 ? 1 : -1;
+      const width = column?.width ? Number(column?.width) + deviationWidth : column?.width;
       return {
         ...column,
+        ...'width' in column && { width },
         onHeaderCell: () => ({
           minWidth,
           maxWidth,
-          ...'width' in column && { width: column.width },
+          ...'width' in column && { width: width },
           cellKey: column[INTERNAL_KEY] || column.key,
           onResize: handleResizableColumns,
         }),
