@@ -9,6 +9,7 @@ demo:
 <code  src="./demo/trends.tsx" >动态添加</code>
 <code  src="./demo/children.tsx" >含有 children</code>
 <code  src="./demo/row-selection.tsx">可选择</code>
+<code  src="./demo/edit.tsx" >编辑/自定义 components</code>
 <code  src="./demo/proBasic.tsx" >ProTable 基本使用</code>
 <code  src="./demo/proChildren.tsx" >ProTable 含有 children</code>
 
